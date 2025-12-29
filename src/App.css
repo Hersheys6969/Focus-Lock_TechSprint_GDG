@@ -1,0 +1,183 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+:root {
+  --neon-green: #0f0;
+  --neon-red: #f00;
+  --neon-cyan: #0ff;
+  --bg-color: #050505;
+}
+
+body, html {
+  background-color: var(--bg-color);
+  font-family: 'VT323', monospace; 
+  overflow: hidden;
+  margin: 0;
+}
+
+.app-container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* RESPONSIVE SIDEBAR: Uses Percentage + Min/Max Constraints */
+.controls-panel {
+  flex: 0 0 25vw;        /* Default 25% of screen */
+  min-width: 280px;      /* Never smaller than this */
+  max-width: 380px;      /* Never wider than this */
+  
+  background: rgba(0, 10, 0, 0.85); 
+  backdrop-filter: blur(5px);
+  border-right: 1px solid var(--neon-green);
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  color: var(--neon-green);
+  z-index: 10;
+  transition: border-color 0.3s;
+  box-sizing: border-box; /* Ensure padding doesn't break width */
+}
+
+.monitor-wrapper {
+    flex: 1; /* Takes ALL remaining space */
+    background: black;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Description Text */
+.app-desc {
+    font-size: 0.9rem;
+    opacity: 0.7;
+    margin-top: -10px;
+    margin-bottom: 20px;
+    line-height: 1.2;
+    border-bottom: 1px solid rgba(0,255,0,0.2);
+    padding-bottom: 10px;
+}
+
+.controls-panel.distracted { border-right-color: var(--neon-red); color: var(--neon-red); }
+.controls-panel.hand-paused { border-right-color: var(--neon-cyan); color: var(--neon-cyan); }
+
+.glitch-text {
+    font-size: 3rem;
+    margin: 0;
+    text-shadow: 2px 2px rgba(255, 0, 0, 0.5);
+}
+
+.status-badge {
+    padding: 8px 16px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 20px;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.timer-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin: 10px 0;
+}
+
+.timer-display {
+    font-size: 3.5rem;
+    margin: 0 5px;
+    border: 1px solid currentColor;
+    background: rgba(0,0,0,0.3);
+    text-align: center;
+    flex-grow: 1;
+}
+
+.mini-btn {
+    padding: 10px;
+    font-size: 1.2rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid currentColor;
+    color: currentColor;
+    cursor: pointer;
+}
+
+.button-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+button {
+    font-family: 'VT323', monospace;
+    font-size: 1.4rem;
+    padding: 10px;
+    border: 1px solid currentColor;
+    background: transparent;
+    color: currentColor;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+button:hover:not(:disabled) { background: rgba(255,255,255,0.1); }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-primary { background: rgba(0, 255, 0, 0.1); }
+.btn-danger { background: rgba(255, 0, 0, 0.2); border-color: red; color: white; }
+
+/* Checkbox Style */
+.checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+.checkbox-wrapper input { accent-color: var(--neon-green); width: 20px; height: 20px; }
+
+/* Instructions */
+.instructions-panel {
+    margin-top: auto; 
+    padding-top: 15px;
+    border-top: 1px dashed rgba(0, 255, 0, 0.3);
+    font-size: 0.9rem;
+    opacity: 0.9;
+    width: 100%;
+}
+.instructions-panel h3 { margin: 0 0 5px 0; font-size: 1.1rem; color: #fff; text-align: center; }
+.instructions-panel ol { padding-left: 20px; margin: 0; }
+.instructions-panel li { margin-bottom: 3px; }
+
+/* HUD & Overlays */
+.loading-text {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    color: var(--neon-green); font-size: 2rem; animation: blink 1s infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+.hud-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 20; }
+
+.gaze-tracker-box {
+    position: absolute; bottom: 20px; right: 20px;
+    width: 150px; height: 150px;
+    border: 2px solid #005500; background: rgba(0, 20, 0, 0.9); overflow: hidden;
+}
+.gaze-label { position: absolute; top: 0; left: 0; background: #005500; color: #0f0; font-size: 0.7rem; padding: 2px 5px; }
+.safe-zone-box {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 60px; height: 60px; border: 1px dashed rgba(0, 255, 0, 0.3);
+}
+.gaze-dot {
+    position: absolute; top: 0; left: 0; width: 8px; height: 8px; border-radius: 50%;
+    box-shadow: 0 0 5px currentColor; margin-top: -4px; margin-left: -4px; transition: background-color 0.2s;
+}
+.dot-green { background-color: #0f0; color: #0f0; }
+.dot-red { background-color: #f00; color: #f00; }
+
+.calibration-overlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8); display: flex; flex-direction: column;
+    align-items: center; justify-content: center; z-index: 100;
+}
+.calibration-overlay h1 { color: var(--neon-cyan); font-size: 3rem; margin-bottom: 2rem; text-shadow: 0 0 10px var(--neon-cyan); }
+.calibration-overlay button { font-size: 2rem; padding: 20px 40px; background: var(--neon-green); color: black; border: none; font-weight: bold; }

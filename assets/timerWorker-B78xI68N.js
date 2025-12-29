@@ -1,0 +1,1 @@
+(function(){"use strict";let e=null,l=0;self.onmessage=a=>{const{command:t,value:s}=a.data;t==="START"?e||(l=s,e=setInterval(()=>{l--,self.postMessage({type:"TICK",timeLeft:l}),l<=0&&(clearInterval(e),e=null,self.postMessage({type:"DONE"}))},1e3)):t==="PAUSE"?e&&(clearInterval(e),e=null):t==="RESET_TIME"&&(l=s)}})();

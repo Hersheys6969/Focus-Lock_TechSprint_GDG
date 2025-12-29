@@ -119,7 +119,7 @@ function App() {
 
   return (
     <div className="app-container">
-      <audio ref={audioRef} src="/alert.mp3" preload="auto" />
+      <audio ref={audioRef} src={`${import.meta.env.BASE_URL}alert.mp3`} preload="auto" />
 
       {/* Sidebar */}
       <div className={`controls-panel ${isHandPaused ? 'hand-paused' : (!isFocused && isActive ? 'distracted' : 'focused')}`}>
